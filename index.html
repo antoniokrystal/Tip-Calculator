@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- displays site properly based on user's device -->
+
+  <link rel="icon" type="image/png" sizes="32x32" href="./images/favicon-32x32.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@700&display=swap" rel="stylesheet">
+  <script src="https://code.jquery.com/jquery-3.6.3.js" integrity="sha256-nQLuAZGRRcILA+6dMBOvcRh5Pe310sBpanc6+QBmyVM="
+    crossorigin="anonymous"></script>
+
+  <title>Frontend Mentor | Tip calculator app</title>
+
+  <!-- Feel free to remove these styles or customise in your own stylesheet 👍 -->
+  <style>
+    .attribution {
+      font-size: 11px;
+      text-align: center;
+    }
+
+    .attribution a {
+      color: hsl(228, 45%, 44%);
+    }
+
+    body {
+      margin: unset;
+      background-color: hsl(185, 41%, 84%);
+    }
+
+    .space-700 {
+      font-family: 'Space Mono', monospace;
+      font-weight: 700;
+    }
+
+    .calculator-title {
+      text-align: center;
+      margin-top: .5rem !important;
+      margin-bottom: .5rem !important;
+      color: hsl(183, 100%, 15%);
+    }
+
+    p {
+      margin: unset;
+    }
+
+    .cal-title-container {
+      margin-top: 70px;
+    }
+
+    .flex-container {
+      display: flex;
+      justify-content: center;
+      height: 100%;
+      padding: 20px;
+      gap: 5px;
+    }
+
+    .flex-container>div {
+      background: #ffff;
+      border-radius: 30px;
+    }
+
+    .tip-cal-container {
+      display: flex;
+      justify-content: center;
+      height: 100%;
+      padding: 30px;
+      gap: 5px;
+    }
+
+    .calculator-section {
+      display: flex;
+      justify-content: flex-start;
+      flex-direction: column;
+      height: fit-content;
+      padding: 0 15px;
+      gap: 5px;
+    }
+
+    .calculator-section>div {
+      padding: 8px 8px 15px 8px;
+    }
+
+    input {
+      width: 93%;
+      padding: 10px;
+      margin: 4px 0;
+      text-align: right;
+      border: none;
+      border-radius: 5px;
+      color: hsl(183, 100%, 15%);
+      background-color: hsl(189, 41%, 97%);
+    }
+
+    .input-box:focus {
+      outline: 2px solid hsl(183, 100%, 15%) !important;
+    }
+
+    .input-box-w-icon {
+      position: relative;
+    }
+
+    .input-box-w-icon img {
+      position: absolute;
+      left: 0;
+      top: 5px;
+      padding: 10px 10px;
+    }
+
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+
+    .calcu-button-container {
+      display: flex;
+      justify-content: flex-start;
+      flex-direction: column;
+      height: 100%;
+      gap: 5px;
+    }
+
+    .calcu-buttons {
+      display: flex;
+      justify-content: flex-start;
+      flex-direction: row;
+      height: 100%;
+      gap: 15px;
+    }
+
+    .tip-percentage {
+      background-color: hsl(183, 100%, 15%);
+      border: none;
+      border-radius: 5px;
+      color: #fff;
+      font-family: 'Space Mono', monospace;
+      font-weight: 700;
+      font-size: 20px;
+      cursor: pointer;
+      min-height: 49px;
+      min-width: 100px;
+    }
+
+    .tip-percentage:hover {
+      background-color: hsl(172, 67%, 45%);
+      color: hsl(183, 100%, 15%);
+    }
+
+    .tip-percentage-custom {
+      border: none;
+      border-radius: 5px;
+      color: hsl(183, 100%, 15%);
+      font-family: 'Space Mono', monospace;
+      font-weight: 700;
+      font-size: 20px;
+      height: 49px;
+      width: 100px;
+      text-align: center;
+      padding: 0;
+      margin: 0;
+    }
+
+    .results {
+      display: flex;
+      justify-content: space-between;
+      flex-direction: row;
+      height: 100%;
+      padding: 15px;
+      gap: 100px;
+    }
+
+    .per-person {
+      font-size: 12px;
+      color: hsl(186, 14%, 43%);
+    }
+
+    .result-p {
+      color: #fff;
+    }
+
+    .tip-amount-pp {
+      margin: unset;
+      color: hsl(172, 67%, 45%);
+    }
+
+    .total-pp {
+      margin: unset;
+      color: hsl(172, 67%, 45%);
+    }
+
+    .cal-text {
+      color: hsl(186, 14%, 43%);
+      margin-bottom: 10px;
+    }
+
+    .reset-btn {
+      cursor: pointer;
+      background-color: hsl(172, 67%, 45%);
+      color: hsl(183, 100%, 15%);
+      border: none;
+      padding: 10px 5px;
+      border-radius: 5px;
+      font-family: 'Space Mono', monospace;
+      font-weight: 700;
+      font-size: 20px;
+      width: 90%;
+    }
+    .reset-btn:disabled {
+      cursor: default;
+    }
+    
+
+    .result-reset-section {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 30px 0 30px 0;
+      background-color: hsl(183, 100%, 15%);
+      border-radius: 30px;
+    }
+
+    .reset-button-container {
+      display: flex;
+      justify-content: center;
+    }
+
+    #percent-5.active,
+    #percent-10.active,
+    #percent-15.active,
+    #percent-25.active,
+    #percent-50.active {
+      background-color: hsl(172, 67%, 45%);
+      color: hsl(183, 100%, 15%);
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="cal-title-container">
+    <h5 class="space-700 calculator-title">SPLI</h5>
+    <h5 class="space-700 calculator-title">TTER</h5>
+  </div>
+
+  <div class="flex-container">
+
+
+    <div class="tip-cal-container">
+      <div class="calculator-section">
+        <div class="item1">
+          <p class="space-700 cal-text">Bill</p>
+          <div class="input-box-w-icon">
+            <img src="images/icon-dollar.svg" alt="">
+            <input type="number" placeholder="0" class="space-700 input-box bill-input">
+          </div>
+        </div>
+        <div class="item2">
+          <p class="space-700 cal-text">Select Tip %</p>
+
+          <div class="calcu-button-container">
+
+            <div class="calcu-buttons">
+              <div class="item1">
+                <button class="tip-percentage" id="percent-5" onclick="computeTotal(5)">5%</button>
+              </div>
+              <div class="item2">
+                <button class="tip-percentage" id="percent-10" onclick="computeTotal(10)">10%</button>
+              </div>
+              <div class="item3">
+                <button class="tip-percentage" id="percent-15" onclick="computeTotal(15)">15%</button>
+              </div>
+            </div>
+            <div class="calcu-buttons">
+              <div class="item1">
+                <button class="tip-percentage" id="percent-25" onclick="computeTotal(25)">25%</button>
+              </div>
+              <div class="item2">
+                <button class="tip-percentage" id="percent-50" onclick="computeTotal(50)">50%</button>
+              </div>
+              <div class="item3">
+                <input type="number" placeholder="Custom" id="percent-custom"
+                  class="space-700 tip-percentage-custom input-box">
+              </div>
+            </div>
+
+          </div>
+        </div>
+        <div class="item3">
+          <p class="space-700 cal-text">Number of People</p>
+          <div class="input-box-w-icon">
+            <img src="images/icon-person.svg" alt="">
+            <input type="number" placeholder="0" class="space-700 input-box num-people-input">
+          </div>
+        </div>
+      </div>
+
+
+      <div class="result-reset-section">
+        <div class="calculator-section">
+          <div class="results">
+            <div class="item1">
+              <p class="space-700 result-p">Tip Amount</p>
+              <p class="space-700 per-person">/ person</p>
+            </div>
+            <div class="item2">
+              <h1 class="space-700 tip-amount-pp">$ <span id="tip-amount"> 0.00</span> </h1>
+            </div>
+          </div>
+          <div class="results">
+            <div class="item1">
+              <p class="space-700 result-p">Total</p>
+              <p class="space-700 per-person">/ person</p>
+            </div>
+            <div class="item2">
+              <h1 class="space-700 total-pp">$ <span id="total-per-person"> 0.00</span></h1>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="reset-button-container">
+          <button class="reset-btn" onclick="resetCalcu()"> RESET </button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+
+  <div class="attribution">
+    Challenge by <a href="https://www.frontendmentor.io?ref=challenge" target="_blank">Frontend Mentor</a>.
+    Coded by <a href="#">k-t</a>.
+  </div>
+
+
+  <script>
+    function computeTotal(tip) {
+
+      button_id = '#percent-' + tip
+
+      var reviewer_tooltip = document.querySelector(button_id);
+      reviewer_tooltip.classList.add('active');
+      if (button_id == '#percent-5') {
+        document.querySelector('#percent-10').classList.remove('active');
+        document.querySelector('#percent-15').classList.remove('active');
+        document.querySelector('#percent-25').classList.remove('active');
+        document.querySelector('#percent-50').classList.remove('active');
+      }
+
+      if (button_id == '#percent-10') {
+        document.querySelector('#percent-5').classList.remove('active');
+        document.querySelector('#percent-15').classList.remove('active');
+        document.querySelector('#percent-25').classList.remove('active');
+        document.querySelector('#percent-50').classList.remove('active');
+      }
+
+      if (button_id == '#percent-15') {
+        document.querySelector('#percent-10').classList.remove('active');
+        document.querySelector('#percent-5').classList.remove('active');
+        document.querySelector('#percent-25').classList.remove('active');
+        document.querySelector('#percent-50').classList.remove('active');
+      }
+      if (button_id == '#percent-25') {
+        document.querySelector('#percent-10').classList.remove('active');
+        document.querySelector('#percent-5').classList.remove('active');
+        document.querySelector('#percent-15').classList.remove('active');
+        document.querySelector('#percent-50').classList.remove('active');
+      }
+      if (button_id == '#percent-50') {
+        document.querySelector('#percent-10').classList.remove('active');
+        document.querySelector('#percent-5').classList.remove('active');
+        document.querySelector('#percent-25').classList.remove('active');
+        document.querySelector('#percent-15').classList.remove('active');
+      }
+
+      bill_amount = $('.bill-input').val();
+      person_number = $('.num-people-input').val();
+      bill_amount = parseFloat(bill_amount)
+      person_number = parseFloat(person_number)
+
+
+      total_tip = (bill_amount * (tip / 100))
+      total_per_person = (bill_amount + ((total_tip))) / person_number
+      tip_per_person = (total_tip) / person_number
+
+      $('#tip-amount').text(tip_per_person.toFixed(2));
+      $('#total-per-person').text(total_per_person.toFixed(2));
+    }$('.reset-btn').prop('disabled', false);
+
+    $('#percent-custom').on('input',function () {
+      document.querySelector('#percent-custom').classList.add('active');
+      document.querySelector('#percent-5').classList.remove('active');
+      document.querySelector('#percent-10').classList.remove('active');
+      document.querySelector('#percent-15').classList.remove('active');
+      document.querySelector('#percent-25').classList.remove('active');
+      document.querySelector('#percent-50').classList.remove('active');
+
+      tip = $('#percent-custom').val();
+      bill_amount = $('.bill-input').val();
+      person_number = $('.num-people-input').val();
+      bill_amount = parseFloat(bill_amount)
+      person_number = parseFloat(person_number)
+
+
+      total_tip = (bill_amount * (tip / 100))
+      total_per_person = (bill_amount + ((total_tip))) / person_number
+      tip_per_person = (total_tip) / person_number
+
+      $('#tip-amount').text(tip_per_person.toFixed(2));
+      $('#total-per-person').text(total_per_person.toFixed(2));
+      $('.reset-btn').prop('disabled', false);
+    })
+
+
+    function resetCalcu()
+      {
+      document.querySelector('#percent-custom').classList.remove('active');
+      document.querySelector('#percent-5').classList.remove('active');
+      document.querySelector('#percent-10').classList.remove('active');
+      document.querySelector('#percent-15').classList.remove('active');
+      document.querySelector('#percent-25').classList.remove('active');
+      document.querySelector('#percent-50').classList.remove('active');
+
+      $('#percent-custom').val();
+      $('.bill-input').val(0);
+      $('.num-people-input').val(0);
+      $('#tip-amount').text('0.00');
+      $('#total-per-person').text('0.00');
+
+
+    }
+
+
+  </script>
+</body>
+
+</html>
